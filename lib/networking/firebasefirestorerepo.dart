@@ -101,4 +101,21 @@ class FirebaseFirestoreRepo {
     await _db.collection(usn).doc("face_data").delete();
     await _db.collection(usn).doc("marks").delete();
   }
+
+  Future addAttendence({required String usn}) async {
+    await _db
+        .collection(usn)
+        .doc("attendence")
+        .collection("entries")
+        .add({"dateTime": DateTime.now().toString()});
+  }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> getAttendence(
+      {required String usn}) {
+    return _db
+        .collection(usn)
+        .doc("attendence")
+        .collection("entries")
+        .snapshots();
+  }
 }

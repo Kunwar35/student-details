@@ -129,6 +129,19 @@ class _VerifyFaceScreenState extends State<VerifyFaceScreen> {
                                                     usn: widget.usn,
                                                     data: response);
                                             if (result) {
+                                              final dateTime = DateTime.now();
+
+                                              if (dateTime.hour == 9 &&
+                                                  dateTime.minute <= 10) {
+                                                await _repo.addAttendence(
+                                                    usn: widget.usn);
+                                              } else {
+                                                showSnackBar(
+                                                    context: context,
+                                                    msg:
+                                                        "You are late, Attendence will not be counted!");
+                                              }
+
                                               Navigator.of(context)
                                                   .pushAndRemoveUntil(
                                                       CupertinoPageRoute(

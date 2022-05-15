@@ -26,9 +26,21 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
         automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
-        title: const Text(
-          "Student Details",
-          style: TextStyle(fontSize: 22),
+        toolbarHeight: 70,
+        title: Row(
+          children: [
+            Image.asset(
+              "assets/logo-small.png",
+              height: 60,
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            const Text(
+              "Student Details",
+              style: TextStyle(fontSize: 22),
+            ),
+          ],
         ),
       ),
       body: SingleChildScrollView(
@@ -162,12 +174,6 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
                                                     verticalAlignment:
                                                         TableCellVerticalAlignment
                                                             .top,
-                                                    child:
-                                                        Text("Attendence (%)")),
-                                                TableCell(
-                                                    verticalAlignment:
-                                                        TableCellVerticalAlignment
-                                                            .top,
                                                     child: SizedBox()),
                                               ])
                                             : TableRow(children: [
@@ -182,9 +188,6 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
                                                     .docs[index - 1]["mm"]),
                                                 Text(snapshot.data!
                                                     .docs[index - 1]["om"]),
-                                                Text(snapshot
-                                                        .data!.docs[index - 1]
-                                                    ["attendence"]),
                                                 InkWell(
                                                   onTap: () {
                                                     marksPopUp(
@@ -221,6 +224,49 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
                                       }))
                                   : const Center(
                                       child: Text("No subjects added yet"))
+                              : const Center(
+                                  child: SizedBox(
+                                      height: 30,
+                                      width: 30,
+                                      child: CircularProgressIndicator())),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              SizedBox(
+                width: getCardWidth(context),
+                child: Card(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.all(12.0),
+                        child: Text(
+                          "Attendence",
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ),
+                      const Divider(
+                        height: 1,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child:
+                            StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                          stream: _repo.getAttendence(usn: widget.usn),
+                          builder: (context, snapshot) => snapshot.hasData
+                              ? Row(
+                                  children: [
+                                    const Text("No. of Present"),
+                                    const Spacer(),
+                                    Text(snapshot.data!.docs.length.toString())
+                                  ],
+                                )
                               : const Center(
                                   child: SizedBox(
                                       height: 30,
@@ -285,14 +331,14 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
                                               height: 40,
                                               minWidth: 70,
                                               onPressed: () async {
+                                                await _repo.deleteStudent(
+                                                    usn: widget.usn);
                                                 Navigator.of(context)
                                                     .pushAndRemoveUntil(
                                                         CupertinoPageRoute(
                                                             builder: (context) =>
                                                                 const HomeScreen()),
                                                         (route) => false);
-                                                await _repo.deleteStudent(
-                                                    usn: widget.usn);
                                               },
                                               color: Colors.red,
                                               child: const Text(
@@ -395,6 +441,8 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return "Maximum Marks is required";
+                                } else if (int.parse(value) > 100) {
+                                  return "Maximum marks cannot be greater that 100";
                                 }
                                 return null;
                               }),
@@ -407,18 +455,9 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return "Obtained Marks is required";
-                                }
-                                return null;
-                              }),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          CustomTextFormField(
-                              controller: _attendenceController,
-                              label: "Attendence (%)",
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return "Attendence is required";
+                                } else if (int.parse(value) >
+                                    int.parse(_mmController.text)) {
+                                  return "Obtained marks cannot be greater than Maximum marks";
                                 }
                                 return null;
                               }),

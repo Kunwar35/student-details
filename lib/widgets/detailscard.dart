@@ -67,110 +67,127 @@ class DetailsCard extends StatelessWidget {
               child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
                 stream: data,
                 builder: (context, snapshot) => snapshot.hasData
-                    ? Column(
-                        children: [
-                          Row(
+                    ? snapshot.data!.data() != null
+                        ? Column(
                             children: [
-                              const Text("Full Name"),
-                              const Spacer(),
-                              Text(snapshot.data!.data()!["fname"] +
-                                  " " +
-                                  snapshot.data!.data()!["lname"])
+                              Row(
+                                children: [
+                                  const Text("Full Name"),
+                                  const Spacer(),
+                                  Text(snapshot.data!.data()!["fname"] +
+                                      " " +
+                                      snapshot.data!.data()!["lname"])
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                children: [
+                                  const Text("Enrollment Number"),
+                                  const Spacer(),
+                                  Text(snapshot.data!.data()!["usn"].toString())
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                children: [
+                                  const Text("Branch"),
+                                  const Spacer(),
+                                  Text(snapshot.data!
+                                      .data()!["branch"]
+                                      .toString())
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                children: [
+                                  const Text("Semester"),
+                                  const Spacer(),
+                                  Text(snapshot.data!
+                                      .data()!["semester"]
+                                      .toString())
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                children: [
+                                  const Text("Phone"),
+                                  const Spacer(),
+                                  Text(snapshot.data!
+                                      .data()!["phone"]
+                                      .toString())
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                children: [
+                                  const Text("Email"),
+                                  const Spacer(),
+                                  Text(snapshot.data!
+                                      .data()!["email"]
+                                      .toString())
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                children: [
+                                  const Text("Gender"),
+                                  const Spacer(),
+                                  Text(snapshot.data!
+                                      .data()!["gender"]
+                                      .toString())
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                children: [
+                                  const Text("Blood Group"),
+                                  const Spacer(),
+                                  Text(snapshot.data!
+                                      .data()!["bgroup"]
+                                      .toString())
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                children: [
+                                  const Text("Parent/Guardian Name"),
+                                  const Spacer(),
+                                  Text(snapshot.data!
+                                      .data()!["pname"]
+                                      .toString())
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                children: [
+                                  const Text("Parent/Guardian Phone"),
+                                  const Spacer(),
+                                  Text(snapshot.data!
+                                      .data()!["pphone"]
+                                      .toString())
+                                ],
+                              ),
                             ],
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            children: [
-                              const Text("Enrollment Number"),
-                              const Spacer(),
-                              Text(snapshot.data!.data()!["usn"].toString())
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            children: [
-                              const Text("Branch"),
-                              const Spacer(),
-                              Text(snapshot.data!.data()!["branch"].toString())
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            children: [
-                              const Text("Semester"),
-                              const Spacer(),
-                              Text(
-                                  snapshot.data!.data()!["semester"].toString())
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            children: [
-                              const Text("Phone"),
-                              const Spacer(),
-                              Text(snapshot.data!.data()!["phone"].toString())
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            children: [
-                              const Text("Email"),
-                              const Spacer(),
-                              Text(snapshot.data!.data()!["email"].toString())
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            children: [
-                              const Text("Gender"),
-                              const Spacer(),
-                              Text(snapshot.data!.data()!["gender"].toString())
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            children: [
-                              const Text("Blood Group"),
-                              const Spacer(),
-                              Text(snapshot.data!.data()!["bgroup"].toString())
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            children: [
-                              const Text("Parent/Guardian Name"),
-                              const Spacer(),
-                              Text(snapshot.data!.data()!["pname"].toString())
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            children: [
-                              const Text("Parent/Guardian Phone"),
-                              const Spacer(),
-                              Text(snapshot.data!.data()!["pphone"].toString())
-                            ],
-                          ),
-                        ],
-                      )
+                          )
+                        : const Text("User not found")
                     : const Center(
                         child: SizedBox(
                             height: 30,

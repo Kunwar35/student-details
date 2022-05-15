@@ -9,6 +9,14 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        toolbarHeight: 70,
+        backgroundColor: Colors.white,
+        title: Image.asset(
+          "assets/logo.png",
+          height: 68,
+        ),
+      ),
       body: Container(
         constraints: const BoxConstraints.expand(),
         child: Center(
