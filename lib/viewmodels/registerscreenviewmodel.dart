@@ -10,7 +10,8 @@ class RegisterScreenViewModel {
       final img = base64Encode(bytes);
       final dio = Dio();
       final response = await dio.post(
-          "https://student-details.herokuapp.com/getFaceData",
+//           "https://student-details.herokuapp.com/getFaceData",
+          "https://student-details-backend.onrender.com/getFaceData",
           data: {"image": img});
       if (response.statusCode == 200) {
         return response.data.values.toList();
