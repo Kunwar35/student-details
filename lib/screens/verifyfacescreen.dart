@@ -131,8 +131,8 @@ class _VerifyFaceScreenState extends State<VerifyFaceScreen> {
                                             if (result) {
                                               final dateTime = DateTime.now();
 
-                                              if (dateTime.hour == 9 &&
-                                                  dateTime.minute <= 10) {
+                                              if (dateTime.hour > 8 &&
+                                                  dateTime.hour < 13) {
                                                 await _repo.addAttendence(
                                                     usn: widget.usn);
                                               } else {
